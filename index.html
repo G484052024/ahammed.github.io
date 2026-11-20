@@ -4,166 +4,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- サイトタイトル -->
     <title>アハメド タスニム | Portfolio</title>
-
+    <meta name="description" content="AIとプログラミングに興味がある大学生、アハメド タスニムのポートフォリオ。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
-        /* ==================================
-           全体設定
-           雑誌の誌面風デザイン
-        ================================== */
+        /* ===== カラー・フォント設定（ここを変えると全体の雰囲気が変わります） ===== */
+        :root {
+            --bg: #f5f6ef;
+            --surface: #ffffff;
+            --ink: #1d2a22;
+            --muted: #5d6b62;
+            --green: #2f6b45;
+            --green-soft: #e4efe3;
+            --line: #d9e0d3;
+            --sakura: #e8a0b4;
+            --sakura-soft: #fbe9ef;
+            --serif: "Shippori Mincho", "Yu Mincho", "Hiragino Mincho ProN", serif;
+            --sans: "Zen Kaku Gothic New", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+        }
+
+        :root[data-theme="dark"] {
+            --bg: #121a15;
+            --surface: #1b261f;
+            --ink: #e9efe6;
+            --muted: #a2b0a6;
+            --green: #7fc79a;
+            --green-soft: #243529;
+            --line: #2e3f34;
+            --sakura: #e8a0b4;
+            --sakura-soft: #33242b;
+        }
+
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 72px
         }
 
         body {
-            font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
-            background: #f6f8f4;
-            color: #222;
-            line-height: 1.8;
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.85;
+            transition: background .3s, color .3s
         }
 
-        /* ページ全体の横幅 */
+        a {
+            color: inherit
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--sakura);
+            outline-offset: 3px
+        }
+
         .container {
             width: min(1100px, 92%);
-            margin: auto;
+            margin: auto
         }
 
-        /* ==================================
-           表紙エリア
-        ================================== */
-        header {
-            background: linear-gradient(135deg, #2e7d32, #66bb6a);
-            color: #fff;
-            padding: 80px 0;
+        /* ===== ナビゲーション ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line)
         }
 
-        .hero {
+        .nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            gap: 12px
+        }
+
+        .logo {
+            font-family: var(--serif);
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 1.1rem
+        }
+
+        .nav ul {
+            display: flex;
+            gap: 4px;
+            list-style: none;
+            overflow-x: auto
+        }
+
+        .nav a.link {
+            display: block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: .9rem;
+            color: var(--muted);
+            white-space: nowrap
+        }
+
+        .nav a.link:hover,
+        .nav a.link.active {
+            background: var(--green-soft);
+            color: var(--green)
+        }
+
+        .theme-btn {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--ink);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            flex: none
+        }
+
+        /* ===== 表紙 ===== */
+        .cover {
+            position: relative;
+            overflow: hidden;
+            background: var(--green);
+            color: #f5f6ef;
+            padding: 96px 0 80px
+        }
+
+        :root[data-theme="dark"] .cover {
+            background: #1d3a28
+        }
+
+        .cover::after {
+            content: "桜";
+            position: absolute;
+            right: -2%;
+            bottom: -18%;
+            font-family: var(--serif);
+            font-size: clamp(14rem, 34vw, 30rem);
+            line-height: 1;
+            color: var(--sakura);
+            opacity: .18;
+            pointer-events: none
+        }
+
+        .cover .container {
+            position: relative;
+            z-index: 1;
             display: grid;
-            gap: 20px;
+            gap: 22px
         }
 
-        .hero small {
-            letter-spacing: 4px;
-            text-transform: uppercase;
+        .issue {
+            font-size: .9rem;
+            opacity: .85
         }
 
-        .hero h1 {
-            font-size: clamp(2.2rem, 6vw, 4rem);
-            line-height: 1.2;
+        .cover h1 {
+            font-family: var(--serif);
+            font-weight: 800;
+            font-size: clamp(2.6rem, 8vw, 5.6rem);
+            line-height: 1.1
         }
 
-        .catchcopy {
-            max-width: 700px;
-            font-size: 1.1rem;
+        .cover .role {
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            max-width: 640px
         }
 
-        /* ==================================
-           メインレイアウト
-        ================================== */
-        main {
-            padding: 40px 0 60px;
+        .cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px
         }
 
-        .magazine-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 24px;
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 2px solid #f5f6ef;
+            transition: .2s
         }
 
-        /* 雑誌の記事風カード */
+        .btn.primary {
+            background: #f5f6ef;
+            color: #1f4a31
+        }
+
+        .btn:hover {
+            background: var(--sakura);
+            border-color: var(--sakura);
+            color: #2a1a20
+        }
+
+        .facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, .3)
+        }
+
+        .facts div {
+            font-size: .85rem;
+            opacity: .9
+        }
+
+        .facts b {
+            display: block;
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            line-height: 1.2
+        }
+
+        /* ===== セクション共通 ===== */
+        section.block {
+            padding: 72px 0 8px
+        }
+
+        .sec-head {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 28px
+        }
+
+        .sec-head h2 {
+            font-family: var(--serif);
+            font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+            color: var(--green)
+        }
+
+        .sec-head span {
+            color: var(--muted);
+            font-size: .9rem
+        }
+
+        .sec-head::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background: var(--line);
+            align-self: center
+        }
+
         .card {
-            background: #fff;
-            padding: 28px;
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .07);
-        }
-
-        /* 見出しデザイン */
-        h2 {
-            color: #2e7d32;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #81c784;
-            font-size: 1.5rem;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 26px
         }
 
         h3 {
-            color: #2e7d32;
-            margin-bottom: 10px;
+            font-family: var(--serif);
+            font-size: 1.15rem;
+            margin-bottom: 8px
         }
 
-        /* 基本情報 */
-        .profile-list {
+        /* ===== ABOUT ===== */
+        .about {
             display: grid;
-            gap: 12px;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px
         }
 
-        .profile-item {
-            padding: 12px;
-            background: #f3faf3;
-            border-left: 5px solid #4caf50;
+        .about p+p {
+            margin-top: 12px
         }
 
-        /* 趣味一覧 */
-        .hobby-list {
-            list-style: none;
+        .profile {
+            display: grid;
+            gap: 10px
         }
 
-        .hobby-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid #e5e5e5;
+        .profile div {
+            padding: 10px 14px;
+            background: var(--green-soft);
+            border-left: 5px solid var(--green);
+            border-radius: 0 8px 8px 0
         }
 
-        /* スキル表示 */
-        .skills {
+        .profile small {
+            display: block;
+            color: var(--muted);
+            line-height: 1.4
+        }
+
+        .profile b {
+            font-weight: 700
+        }
+
+        /* ===== SKILLS ===== */
+        .filters {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 20px
         }
 
-        .skill {
-            background: #2e7d32;
-            color: #fff;
-            padding: 8px 14px;
+        .filters button {
+            font: inherit;
+            font-size: .9rem;
+            padding: 6px 16px;
             border-radius: 999px;
-            font-size: 0.9rem;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--ink);
+            cursor: pointer
         }
 
-        /* 学びたいこと */
-        .highlight {
-            background: #f3faf3;
-            border-left: 6px solid #4caf50;
-            padding: 16px;
+        .filters button[aria-pressed="true"] {
+            background: var(--green);
+            border-color: var(--green);
+            color: #fff
         }
 
-        /* フッター */
+        :root[data-theme="dark"] .filters button[aria-pressed="true"] {
+            color: #102016
+        }
+
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px
+        }
+
+        .skill-card[hidden] {
+            display: none
+        }
+
+        .skill-card .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 8px
+        }
+
+        .tag {
+            font-size: .75rem;
+            padding: 2px 10px;
+            border-radius: 999px;
+            background: var(--sakura-soft);
+            color: #a5486a
+        }
+
+        :root[data-theme="dark"] .tag {
+            color: var(--sakura)
+        }
+
+        .skill-card p {
+            font-size: .92rem;
+            color: var(--muted);
+            margin: 6px 0 12px
+        }
+
+        .bar {
+            height: 8px;
+            border-radius: 99px;
+            background: var(--green-soft);
+            overflow: hidden
+        }
+
+        .bar i {
+            display: block;
+            height: 100%;
+            width: 0;
+            background: var(--green);
+            border-radius: 99px;
+            transition: width 1s ease
+        }
+
+        .level {
+            font-size: .78rem;
+            color: var(--muted);
+            margin-top: 4px;
+            text-align: right
+        }
+
+        /* ===== PROJECTS ===== */
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px
+        }
+
+        .proj {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .proj .thumb {
+            height: 140px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-family: var(--serif);
+            font-size: 2.4rem;
+            color: #fff;
+            background: linear-gradient(135deg, var(--green), #7bb68f)
+        }
+
+        .proj:nth-child(2) .thumb {
+            background: linear-gradient(135deg, #b46a85, var(--sakura))
+        }
+
+        .proj:nth-child(3) .thumb {
+            background: linear-gradient(135deg, #3b6f7a, #8cc0c8)
+        }
+
+        .proj ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: auto
+        }
+
+        .proj li {
+            font-size: .75rem;
+            padding: 2px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            color: var(--muted)
+        }
+
+        .proj a {
+            font-size: .9rem;
+            color: var(--green);
+            font-weight: 700
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            list-style: none;
+            border-left: 3px solid var(--green);
+            margin-left: 8px;
+            display: grid;
+            gap: 22px
+        }
+
+        .timeline li {
+            position: relative;
+            padding-left: 24px
+        }
+
+        .timeline li::before {
+            content: "";
+            position: absolute;
+            left: -10px;
+            top: 8px;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 4px solid var(--sakura)
+        }
+
+        .timeline time {
+            font-size: .85rem;
+            color: var(--muted)
+        }
+
+        /* ===== INTERESTS / LEARNING ===== */
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px
+        }
+
+        .interest-list {
+            list-style: none
+        }
+
+        .interest-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--line)
+        }
+
+        .interest-list li:last-child {
+            border: 0
+        }
+
+        .goal {
+            padding: 14px 16px;
+            background: var(--green-soft);
+            border-left: 6px solid var(--green);
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 12px;
+            font-weight: 700
+        }
+
+        .goal span {
+            display: block;
+            font-weight: 400;
+            font-size: .9rem;
+            color: var(--muted)
+        }
+
+        /* ===== MESSAGE ===== */
+        .message {
+            text-align: center;
+            padding: 48px 24px;
+            background: var(--sakura-soft)
+        }
+
+        .message .kanji {
+            font-family: var(--serif);
+            font-size: 4rem;
+            line-height: 1.2;
+            color: #b2587a
+        }
+
+        :root[data-theme="dark"] .message .kanji {
+            color: var(--sakura)
+        }
+
+        .message p {
+            max-width: 520px;
+            margin: 8px auto 0;
+            color: var(--muted)
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px
+        }
+
+        .contact-list a {
+            padding: 10px 20px;
+            border-radius: 999px;
+            border: 1px solid var(--green);
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 700
+        }
+
+        .contact-list a:hover {
+            background: var(--green);
+            color: var(--bg)
+        }
+
         footer {
             text-align: center;
-            padding: 30px;
-            color: #666;
-            font-size: 0.9rem;
+            padding: 48px 20px 60px;
+            color: var(--muted);
+            font-size: .88rem
         }
 
-        /* ==================================
-           スマートフォン対応
-        ================================== */
-        @media (max-width: 768px) {
+        .top-btn {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 0;
+            background: var(--green);
+            color: var(--bg);
+            font-size: 1.1rem;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s
+        }
 
-            .magazine-grid {
-                grid-template-columns: 1fr;
+        .top-btn.show {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        /* ===== スマホ対応 ===== */
+        @media (max-width:768px) {
+
+            .about,
+            .two {
+                grid-template-columns: 1fr
             }
 
-            header {
-                padding: 60px 0;
+            .cover {
+                padding: 64px 0 56px
             }
 
-            .card {
-                padding: 20px;
+            .nav ul {
+                display: none
+            }
+
+            section.block {
+                padding-top: 56px
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            * {
+                transition: none !important
+            }
+        }
+
+        @media print {
+
+            .nav,
+            .top-btn,
+            .cta,
+            .filters {
+                display: none
+            }
+
+            .cover {
+                color: #000;
+                background: none
             }
         }
     </style>
@@ -171,111 +641,279 @@
 
 <body>
 
-    <!-- 雑誌の表紙風ヘッダー -->
-    <header>
-        <div class="container hero">
-            <small>PORTFOLIO</small>
-            <h1>アハメド タスニム</h1>
-            <p class="catchcopy">
-                AIとプログラミングに興味がある、好奇心旺盛な大学生です！
-            </p>
+    <!-- ナビゲーション -->
+    <nav class="nav" aria-label="メインメニュー">
+        <div class="container">
+            <a href="#top" class="logo">TASNIM</a>
+            <ul>
+                <li><a class="link" href="#about">自己紹介</a></li>
+                <li><a class="link" href="#skills">スキル</a></li>
+                <li><a class="link" href="#projects">制作物</a></li>
+                <li><a class="link" href="#journey">歩み</a></li>
+                <li><a class="link" href="#interests">興味</a></li>
+                <li><a class="link" href="#contact">連絡先</a></li>
+            </ul>
+            <button class="theme-btn" id="themeBtn" aria-label="ダークモードに切り替え" title="テーマ切り替え">🌙</button>
+        </div>
+    </nav>
+
+    <!-- 表紙 -->
+    <header class="cover" id="top">
+        <div class="container">
+            <p class="issue">PORTFOLIO 2026</p>
+            <h1>アハメド<br>タスニム</h1>
+            <p class="role">AIとプログラミングに興味がある、好奇心旺盛な大学生です！新しい技術を学び、手を動かしてかたちにすることが好きです。</p>
+            <div class="cta">
+                <a class="btn primary" href="#projects">制作物を見る</a>
+                <a class="btn" href="#contact">連絡する</a>
+            </div>
+            <div class="facts">
+                <div><b>3年</b>学年</div>
+                <div><b>6</b>使える技術</div>
+                <div><b>AI / IoT</b>関心分野</div>
+            </div>
         </div>
     </header>
 
-    <!-- メインコンテンツ -->
     <main class="container">
 
-        <div class="magazine-grid">
-
-            <!-- 左カラム -->
-            <div>
-
-                <!-- 自己紹介 -->
-                <section class="card">
-                    <h2>PROFILE</h2>
-
-                    <div class="profile-list">
-                        <div class="profile-item">
-                            <strong>名前</strong><br>
-                            アハメド タスニム
-                        </div>
-
-                        <div class="profile-item">
-                            <strong>学年</strong><br>
-                            3年
-                        </div>
-
-                        <div class="profile-item">
-                            <strong>所属</strong><br>
-                            北区
-                        </div>
-                    </div>
-                </section>
-
-                <!-- プログラミング経験 -->
-                <section class="card">
-                    <h2>PROGRAMMING EXPERIENCE</h2>
-
-                    <div class="skills">
-                        <span class="skill">Python</span>
-                        <span class="skill">MATLAB</span>
-                        <span class="skill">Java</span>
-                        <span class="skill">Raspberry Pi</span>
-                        <span class="skill">Git</span>
-                        <span class="skill">GitHub</span>
-                    </div>
-
-                    <p>Python：基本的なプログラミング、データ分析</p>
-                    <p>MATLAB：データ分析、機械学習、回帰分析</p>
-                    <p>Java：基本的なプログラミング</p>
-                    <p>Raspberry Pi：センサーを使ったIoTシステムの制作</p>
-                    <p>Git・GitHub：ソースコードの管理や共同開発の基礎</p>
-                </section>
-
+        <!-- 自己紹介 -->
+        <section class="block" id="about">
+            <div class="sec-head">
+                <h2>自己紹介</h2><span>About</span>
             </div>
+            <div class="about">
+                <div class="card">
+                    <h3>はじめまして</h3>
+                    <p>アハメド タスニムです。大学3年生で、AIとプログラミングを中心に学んでいます。Pythonでのデータ分析やMATLABでの機械学習、Raspberry
+                        Piを使ったIoTシステムの制作などに取り組んできました。</p>
+                    <p>新しい文化や考え方に触れることも好きで、技術だけでなく、人とのつながりからも多くを学んでいます。今後はOSS（オープンソース）の開発にも参加してみたいと考えています。</p>
+                </div>
+                <div class="card profile">
+                    <div><small>名前</small><b>アハメド タスニム</b></div>
+                    <div><small>学年</small><b>3年</b></div>
+                    <div><small>所属</small><b>北区</b></div>
+                </div>
+            </div>
+        </section>
 
-            <!-- 右カラム -->
-            <aside>
+        <!-- スキル -->
+        <section class="block" id="skills">
+            <div class="sec-head">
+                <h2>プログラミング経験</h2><span>Skills</span>
+            </div>
+            <div class="filters" role="group" aria-label="スキルの絞り込み">
+                <button aria-pressed="true" data-f="all">すべて</button>
+                <button aria-pressed="false" data-f="lang">言語</button>
+                <button aria-pressed="false" data-f="hw">ハードウェア</button>
+                <button aria-pressed="false" data-f="tool">ツール</button>
+            </div>
+            <div class="skill-grid">
+                <article class="card skill-card" data-cat="lang">
+                    <div class="top">
+                        <h3>Python</h3><span class="tag">言語</span>
+                    </div>
+                    <p>基本的なプログラミング、データ分析</p>
+                    <div class="bar"><i data-w="75"></i></div>
+                    <div class="level">習熟度 75%</div>
+                </article>
+                <article class="card skill-card" data-cat="lang">
+                    <div class="top">
+                        <h3>MATLAB</h3><span class="tag">言語</span>
+                    </div>
+                    <p>データ分析、機械学習、回帰分析</p>
+                    <div class="bar"><i data-w="70"></i></div>
+                    <div class="level">習熟度 70%</div>
+                </article>
+                <article class="card skill-card" data-cat="lang">
+                    <div class="top">
+                        <h3>Java</h3><span class="tag">言語</span>
+                    </div>
+                    <p>基本的なプログラミング</p>
+                    <div class="bar"><i data-w="50"></i></div>
+                    <div class="level">習熟度 50%</div>
+                </article>
+                <article class="card skill-card" data-cat="hw">
+                    <div class="top">
+                        <h3>Raspberry Pi</h3><span class="tag">ハードウェア</span>
+                    </div>
+                    <p>センサーを使ったIoTシステムの制作</p>
+                    <div class="bar"><i data-w="60"></i></div>
+                    <div class="level">習熟度 60%</div>
+                </article>
+                <article class="card skill-card" data-cat="tool">
+                    <div class="top">
+                        <h3>Git・GitHub</h3><span class="tag">ツール</span>
+                    </div>
+                    <p>ソースコードの管理や共同開発の基礎</p>
+                    <div class="bar"><i data-w="55"></i></div>
+                    <div class="level">習熟度 55%</div>
+                </article>
+            </div>
+        </section>
 
-                <!-- 趣味・好きなこと -->
-                <section class="card">
-                    <h2>INTERESTS</h2>
+        <!-- 制作物 -->
+        <section class="block" id="projects">
+            <div class="sec-head">
+                <h2>制作物</h2><span>Projects</span>
+            </div>
+            <div class="proj-grid">
+                <!-- ▼ 内容は自分の作品に書き換えてください -->
+                <article class="card proj">
+                    <div class="thumb">IoT</div>
+                    <h3>センサーIoTシステム</h3>
+                    <p>Raspberry Piとセンサーを使い、環境データを取得・記録するシステムを制作しました。</p>
+                    <ul>
+                        <li>Raspberry Pi</li>
+                        <li>Python</li>
+                    </ul>
+                    <a href="#">詳しく見る</a>
+                </article>
+                <article class="card proj">
+                    <div class="thumb">ML</div>
+                    <h3>回帰分析によるデータ予測</h3>
+                    <p>MATLABで回帰分析と機械学習を行い、データの傾向を予測しました。</p>
+                    <ul>
+                        <li>MATLAB</li>
+                        <li>機械学習</li>
+                    </ul>
+                    <a href="#">詳しく見る</a>
+                </article>
+                <article class="card proj">
+                    <div class="thumb">Web</div>
+                    <h3>このポートフォリオサイト</h3>
+                    <p>HTMLとCSS、少しのJavaScriptで作った自己紹介サイト。雑誌の誌面をイメージしています。</p>
+                    <ul>
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                    </ul>
+                    <a href="#">詳しく見る</a>
+                </article>
+            </div>
+        </section>
 
-                    <ul class="hobby-list">
+        <!-- 歩み -->
+        <section class="block" id="journey">
+            <div class="sec-head">
+                <h2>これまでの歩み</h2><span>Journey</span>
+            </div>
+            <ol class="timeline">
+                <!-- ▼ 年月と内容は実際のものに書き換えてください -->
+                <li><time>1年次</time>
+                    <h3>プログラミングを学び始める</h3>
+                    <p>PythonとJavaの基礎を学びました。</p>
+                </li>
+                <li><time>2年次</time>
+                    <h3>データ分析・機械学習に挑戦</h3>
+                    <p>MATLABで回帰分析や機械学習を経験しました。</p>
+                </li>
+                <li><time>3年次</time>
+                    <h3>IoTとチーム開発</h3>
+                    <p>Raspberry Piでセンサーシステムを制作し、Git・GitHubでの共同開発も学びました。</p>
+                </li>
+                <li><time>これから</time>
+                    <h3>OSSへの参加</h3>
+                    <p>OSSの使い方を学び、いつかコントリビュートしたいです。</p>
+                </li>
+            </ol>
+        </section>
+
+        <!-- 興味・学びたいこと -->
+        <section class="block" id="interests">
+            <div class="sec-head">
+                <h2>興味・学びたいこと</h2><span>Interests</span>
+            </div>
+            <div class="two">
+                <div class="card">
+                    <h3>好きなこと</h3>
+                    <ul class="interest-list">
                         <li>新しい技術やAIについて調べること</li>
                         <li>プログラミングを通して新しいことに挑戦すること</li>
                         <li>映画を見ること</li>
                         <li>家族や友達と過ごすこと</li>
                         <li>新しい文化や考え方を知ること</li>
                     </ul>
-                </section>
+                </div>
+                <div class="card">
+                    <h3>学びたいこと</h3>
+                    <div class="goal">OSSの使い方<span>オープンソースの仕組みと、参加の方法を知りたい</span></div>
+                    <div class="goal">AIの応用<span>学んだ機械学習を実際のサービスに活かしたい</span></div>
+                </div>
+            </div>
+        </section>
 
-                <!-- 学びたいこと -->
-                <section class="card">
-                    <h2>LEARNING</h2>
+        <!-- ひとこと -->
+        <section class="block">
+            <div class="card message">
+                <div class="kanji">桜</div>
+                <p>春に咲いて、また次の春へ。少しずつでも着実に成長していきたいです。</p>
+            </div>
+        </section>
 
-                    <div class="highlight">
-                        OSSの使い方
-                    </div>
-                </section>
-
-                <!-- ひとこと -->
-                <section class="card">
-                    <h2>MESSAGE</h2>
-                    <p>桜</p>
-                </section>
-
-            </aside>
-
-        </div>
+        <!-- 連絡先 -->
+        <section class="block" id="contact">
+            <div class="sec-head">
+                <h2>連絡先</h2><span>Contact</span>
+            </div>
+            <div class="card">
+                <p>インターンシップや共同開発のお話など、お気軽にご連絡ください。</p>
+                <div class="contact-list">
+                    <!-- ▼ 実際のメールアドレス・URLに書き換えてください -->
+                    <a href="mailto:example@example.com">メール</a>
+                    <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <!-- フッター -->
-    <footer>
-        Portfolio Site
-    </footer>
+    <footer>© 2026 アハメド タスニム ／ Portfolio Site</footer>
+    <button class="top-btn" id="topBtn" aria-label="ページの先頭へ">↑</button>
 
+    <script>
+        /* テーマ切り替え（保存できない環境でも動くようにしています） */
+        const root = document.documentElement, themeBtn = document.getElementById('themeBtn');
+        function setTheme(t) {
+            root.dataset.theme = t;
+            themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+            themeBtn.setAttribute('aria-label', t === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え');
+            try { localStorage.setItem('theme', t); } catch (e) { }
+        }
+        let saved = null; try { saved = localStorage.getItem('theme'); } catch (e) { }
+        setTheme(saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+        themeBtn.addEventListener('click', () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+
+        /* スキルの絞り込み */
+        const fbtns = document.querySelectorAll('.filters button');
+        fbtns.forEach(b => b.addEventListener('click', () => {
+            fbtns.forEach(x => x.setAttribute('aria-pressed', x === b));
+            document.querySelectorAll('.skill-card').forEach(c => {
+                c.hidden = !(b.dataset.f === 'all' || c.dataset.cat === b.dataset.f);
+            });
+        }));
+
+        /* スキルバーを画面に入ったときに伸ばす */
+        const bars = document.querySelectorAll('.bar i');
+        const io = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) { e.target.style.width = e.target.dataset.w + '%'; io.unobserve(e.target); }
+        }), { threshold: .4 });
+        bars.forEach(b => io.observe(b));
+
+        /* 現在のセクションをメニューで強調 */
+        const links = document.querySelectorAll('a.link');
+        const secs = [...links].map(l => document.querySelector(l.getAttribute('href')));
+        const so = new IntersectionObserver(es => es.forEach(e => {
+            if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+        }), { rootMargin: '-40% 0px -55% 0px' });
+        secs.forEach(s => s && so.observe(s));
+
+        /* ページ先頭へ戻るボタン */
+        const topBtn = document.getElementById('topBtn');
+        addEventListener('scroll', () => topBtn.classList.toggle('show', scrollY > 600), { passive: true });
+        topBtn.addEventListener('click', () => scrollTo({ top: 0 }));
+    </script>
 </body>
 
 </html>
